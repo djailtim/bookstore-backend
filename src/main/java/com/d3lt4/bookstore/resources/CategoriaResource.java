@@ -1,6 +1,7 @@
 package com.d3lt4.bookstore.resources;
 
 import com.d3lt4.bookstore.domain.Categoria;
+import com.d3lt4.bookstore.dtos.CategoriaDTO;
 import com.d3lt4.bookstore.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,10 @@ public class CategoriaResource {
     private CategoriaService service;
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> findAll() {
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
         List<Categoria> categorias = service.findAll();
-        return ResponseEntity.ok().body(categorias);
+        List<CategoriaDTO> categoriasDTO = categorias.stream().map(CategoriaDTO::new).toList();
+        return ResponseEntity.ok().body(categoriasDTO);
     }
 
     @GetMapping(value = "/{id}")
