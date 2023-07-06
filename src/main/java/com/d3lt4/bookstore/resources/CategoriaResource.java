@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
     @Autowired
     private CategoriaService service;
+
+    @GetMapping
+    public ResponseEntity<List<Categoria>> findAll() {
+        List<Categoria> categorias = service.findAll();
+        return ResponseEntity.ok().body(categorias);
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
