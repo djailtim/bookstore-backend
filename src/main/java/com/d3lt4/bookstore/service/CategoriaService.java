@@ -3,6 +3,7 @@ package com.d3lt4.bookstore.service;
 import com.d3lt4.bookstore.domain.Categoria;
 import com.d3lt4.bookstore.dtos.CategoriaDTO;
 import com.d3lt4.bookstore.repositories.CategoriaRepository;
+import com.d3lt4.bookstore.service.exceptions.DataIntegrityViolationException;
 import com.d3lt4.bookstore.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class CategoriaService {
 
     public Categoria findById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
-            "Object not found, id: " + id + ". Tipo: " + Categoria.class.getName()
+                "Object not found, id: " + id + ". Tipo: " + Categoria.class.getName()
         ));
     }
 
@@ -38,6 +39,10 @@ public class CategoriaService {
 
     public void delete(Integer id) {
         findById(id);
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (org.springframework.dao.DataIntegrityViolationException exception) {
+            throw new DataIntegrityViolationException("Categoria não pode ser deletada. Tem livros associados!");
+        }
     }
 }
