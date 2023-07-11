@@ -45,7 +45,13 @@ public class LivroResource {
     @PostMapping()
     public ResponseEntity<Livro> create (@RequestParam(value = "id_categoria", defaultValue = "0") Integer id_categoria, @RequestBody Livro livro) {
         Livro novoLivro = service.create(id_categoria, livro);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/livros/{id}").buildAndExpand(livro.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}").buildAndExpand(livro.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
