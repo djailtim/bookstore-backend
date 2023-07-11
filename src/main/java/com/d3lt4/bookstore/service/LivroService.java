@@ -38,4 +38,11 @@ public class LivroService {
         if (livroUpdate.getNomeAutor() != null) livroExistente.setNomeAutor(livroUpdate.getNomeAutor());
         if (livroUpdate.getTexto() != null) livroExistente.setTexto(livroUpdate.getTexto());
     }
+
+    public Livro create(Integer id_categoria, Livro livro) {
+        livro.setId(null);
+        Categoria categoria = categoriaService.findById(id_categoria);
+        livro.setCategoria(categoria);
+        return repository.save(livro);
+    }
 }
