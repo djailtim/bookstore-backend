@@ -1,5 +1,6 @@
 package com.d3lt4.bookstore.resources.exceptions;
 
+import com.d3lt4.bookstore.service.exceptions.CategoriaExistenteException;
 import com.d3lt4.bookstore.service.exceptions.DataIntegrityViolationException;
 import com.d3lt4.bookstore.service.exceptions.ObjectNotFoundException;
 import jakarta.servlet.ServletRequest;
@@ -34,4 +35,9 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(CategoriaExistenteException.class)
+    public ResponseEntity<StandardError> categoriaExistenteException(CategoriaExistenteException exception, ServletRequest request) {
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }

@@ -3,6 +3,7 @@ package com.d3lt4.bookstore.service;
 import com.d3lt4.bookstore.domain.Categoria;
 import com.d3lt4.bookstore.dtos.CategoriaDTO;
 import com.d3lt4.bookstore.repositories.CategoriaRepository;
+import com.d3lt4.bookstore.service.exceptions.CategoriaExistenteException;
 import com.d3lt4.bookstore.service.exceptions.DataIntegrityViolationException;
 import com.d3lt4.bookstore.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class CategoriaService {
 
     public Categoria create(Categoria categoria) {
         categoria.setId(null);
+        boolean categoriaExistente = repository.existsByNome(categoria.getNome());
+        if (categoriaExistente) {
+            throw new CategoriaExistenteException("Categoria { " + categoria.getNome() + " } já existente.");
+        }
         return repository.save(categoria);
     }
 
