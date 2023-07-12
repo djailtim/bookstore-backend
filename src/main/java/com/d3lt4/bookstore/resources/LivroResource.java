@@ -3,6 +3,7 @@ package com.d3lt4.bookstore.resources;
 import com.d3lt4.bookstore.domain.Livro;
 import com.d3lt4.bookstore.dtos.LivroDTO;
 import com.d3lt4.bookstore.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class LivroResource {
     }
 
     @PostMapping()
-    public ResponseEntity<Livro> create (@RequestParam(value = "id_categoria", defaultValue = "0") Integer id_categoria, @RequestBody Livro livro) {
+    public ResponseEntity<Livro> create (@RequestParam(value = "id_categoria", defaultValue = "0") Integer id_categoria, @Valid @RequestBody Livro livro) {
         Livro novoLivro = service.create(id_categoria, livro);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}").buildAndExpand(livro.getId()).toUri();
         return ResponseEntity.created(uri).build();

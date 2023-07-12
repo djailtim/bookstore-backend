@@ -2,6 +2,9 @@ package com.d3lt4.bookstore.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,8 +15,17 @@ public class Livro implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull(message = "O título é obrigatório.")
+    @Length(min = 3, max = 100, message = "O título deve ter entre 3 e 100 caracteres.")
     private String titulo;
+
+    @NotNull(message = "O nome do autor é obrigatório.")
+    @Length(min = 3, max = 100, message = "O nome do autor deve ter entre 3 e 100 caracteres.")
     private String nomeAutor;
+
+    @NotNull(message = "O texto é obrigatório.")
+    @Length(min = 3, max = 100, message = "O texto deve ter entre 3 e 100 caracteres.")
     private String texto;
 
     @JsonIgnore

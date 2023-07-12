@@ -1,6 +1,8 @@
 package com.d3lt4.bookstore.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +16,13 @@ public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotNull(message = "O nome da categoria é obrigatório.")
+    @Length(min = 3, max = 100, message = "O nome da categoria entre 3 e 100 caracteres.")
     private String nome;
+
+    @NotNull(message = "A descrição da categoria é obrigatório.")
+    @Length(min = 3, max = 200, message = "A descrição da categoria entre 3 e 200 caracteres.")
     private String descricao;
 
     @OneToMany(mappedBy = "categoria")
